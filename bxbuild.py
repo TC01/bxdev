@@ -1,0 +1,54 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import shutil
+import sys
+
+from bxdev import compiler
+from bxdev import util
+	
+def main():
+	"""Main function that does everything"""
+	parser = argparse.ArgumentParser(description="Compile projects for the BasicX programming language and microcontroller (see www.basicx.com)")
+	parser.add_argument("project", metavar="PROJECT", type=str, help="The full name and path of the BasicX project file (.bxp)")
+	parser.add_argument("-d", "--download", dest="download", action='store_true', help="Attempt to download project to the microcontroller after building")
+	parser.add_argument("-t", "--target", dest="target", help="The build target for the project, valid targets are BX01, BX24, and BX25", default="BX24")
+	args = parser.parse_args()
+
+	#Get the build target
+	target = util.getBuildTarget(args.target)
+		
+	#Check to see if we are going to download the code
+	download = False
+	if args.download == True:
+		download = True
+		
+	#Get the name and directory of the project
+	if not os.path.isfile(args.project):
+		print "Error: Specified project file (" + args.project + ") does not exist"
+		return
+	project, filename, directory = compiler.getProjectData(args.project)
+	
+	#Set wine project dir if we're on *nix
+	wineDirectory = directory
+	if not sys.platform == "win32" and not sys.platform == "cygwin":
+		wineDirectory = compiler.pathToWine(directory)
+		
+	#Access the registry (...should be platform independent, but I BET IT ISN'T) to get and set data
+	key = util.openBasicXKey()
+	success = compiler.setRegistryData(key, wineDirectory, target)
+	if not success:
+		print "Exiting..."
+		return
+	bxPath = compiler.getBasicXPath(key)
+	if bxPath == None:
+		print "Error: Unable to find an installation of the BasicX environment"
+		return
+		
+	#Build the command to run, run it, and retrieve output
+	command = compiler.getCompilerCommand(bxPath, project, download)
+	compiler.runCompilerCommand(command, directory)
+
+if __name__ == '__main__':
+	main()

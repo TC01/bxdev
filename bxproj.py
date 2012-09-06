@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+
+"""BasicX Project Creator
+
+BasicX is a programming language for a series of microcontrollers designed and
+built by NetMedia, Inc. These microcontrollers, the BX01, the BX24, and BX35, 
+are little more than a modified AVR with a bootloader. However, the presence of
+the bootloader means that we can only program them using the BasicX language.
+
+This language is feature-complete with VB 6, and can only be compiled by an IDE 
+nearly ten-years old.
+
+bxproj is one of a number of tools being written to change that.
+
+All bxproj will do is create new projects for you, without having to use the IDE.
+You will now no longer have to use the IDE's clunky "New Project" dialog.
+
+For more information about BasicX, see http://www.basicx.com/"""
+
+import argparse
+import os
+
+from bxdev import projects
+from bxdev import util
+
+def getProjectDir(name, directory, subfolder):
+	"""Parse command line input for the project dir to get a valid directory"""
+	if not os.path.exists(directory):
+		directory = os.getcwd()
+	if subfolder:
+		directory = os.path.join(directory, name)
+	return directory
+	
+def main():
+	"""Main function of script"""
+	parser = argparse.ArgumentParser(description="Create new projects for the BasicX programming language and microcontroller (see www.basicx.com)")
+	parser.add_argument("project", metavar="PROJECT", type=str, help="The name of the new project")
+	parser.add_argument("-d", "--directory", dest="directory", help="Directory in which the project will be created", default=os.getcwd())
+	parser.add_argument("-p", "--prf", dest="prf", help="Alternate .prf (BasicX chip preferences file) to add to the project in place of default template")
+	parser.add_argument("-s", "--subfolder", action='store_true', dest="subdir", help="Create a subdirectory to store all project files", default=False)
+	parser.add_argument("-t", "--target", dest="target", help="The build target for the project, valid targets are BX01, BX24, and BX25", default="BX24")
+	args = parser.parse_args()
+	
+	#Get the build target and PRF Folder
+	target = util.getBuildTarget(args.target)
+	prfdir = projects.getPRFDir()
+	
+	#Get the name and directory of the project
+	project = args.project
+	directory = getProjectDir(project, args.directory, args.subdir)
+	
+	#Create a project folder
+	print "Creating project..."
+	success = projects.createProjectDir(directory)
+	if not success:
+		print "Exiting..."
+		return
+
+	#Create the .bxp file
+	success = projects.createBXPFile(project, directory)
+	if not success:
+		print "Exiting..."
+		return	
+	
+	#Create the .bas file
+	success = projects.createBASFile(project, directory)
+	if not success:
+		print "Exiting..."
+		return
+	
+	#Copy the specified .prf file and then be done!
+	prf = os.path.join(prfdir, target + ".prf")
+	if args.prf != None and os.path.exists(args.prf):
+		prf = args.prf
+	success = projects.createPRFFile(project, directory, prf)
+	if not success:
+		print "Exiting..."
+		return
+	print "BasicX project created successfully!"
+	
+if __name__ == "__main__":
+	main()
