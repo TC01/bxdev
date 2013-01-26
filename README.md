@@ -27,9 +27,11 @@ Clone the project with git:
 
 Then cd into the project, build, and install it with setup.py:
 
-`$ cd bxdev`
-`$ python setup.py build`
-`$ python setup.py install`
+```
+$ cd bxdev
+$ python setup.py build
+$ python setup.py install
+```
 
 Usage:
 ----
@@ -45,8 +47,10 @@ editing `[ProjectName].bas.`
 When you want to compile code, use bxbuild with the -d flag to download the
 code to the microcontroller:
 
-`$ cd [ProjectName]`
-`$ bxbuild.py -d [ProjectName].bxp`
+```
+$ cd [ProjectName]
+$ bxbuild.py -d [ProjectName].bxp
+```
 
 The compiler window will appear on the screen for a few seconds during which
 the code compiles. Any errors will appear on the terminal window.
