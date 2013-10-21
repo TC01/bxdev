@@ -5,10 +5,10 @@ import sys
 #Import winreg either from _winreg or winereg
 if (sys.platform == "win32" or sys.platform == "cygwin"):
 	import _winreg as winreg
-	WineException = None
+	WineError = None
 else:
-	from bxdev import winereg as winreg
-	from winreg import WineException
+	import winereg as winreg
+	from winereg import WineError
 
 def pathToNix(pathName):
 	"""Convert a Wine style path to a Unix style path"""
@@ -42,7 +42,7 @@ def setRegistryData(key, directory, target):
 	try:
 		winreg.SetValueEx(key, "Work_Dir", 0, winreg.REG_SZ, directory)
 		winreg.SetValueEx(key, "Chip_Type", 0, winreg.REG_SZ, target)
-	except WineException:
+	except WineError:
 		print "  Error: Wine cannot be running while performing registry operations"
 		print "  Please kill any active instances of wine and try again"
 		success = False
