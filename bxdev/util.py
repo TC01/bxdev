@@ -9,7 +9,7 @@ if (sys.platform == "win32" or sys.platform == "cygwin"):
 	import _winreg as winreg
 	WineException = None
 else:
-	from bxdev import winereg as winreg
+	import winereg as winreg
 	from winreg import WineException
 
 def getBuildTarget(target):
