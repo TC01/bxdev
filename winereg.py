@@ -52,8 +52,13 @@ class RegistryKey:
 			return hive
 		except IOError:
 			return None
-			
-class WineException(Exception):
+
+# A dummy error message for problems relating to Wine, may add stuff here later.
+class WineError(Exception):
+	pass
+
+# This is defined by Python, but only on Windows, so we need it for non-win32...
+class WindowsError(Exception):
 	pass
 
 def isWineRunning():
@@ -132,7 +137,7 @@ def SetValue(key, subKey, type, value):
 		
 	#Wine can't be running when we try this operation
 	if isWineRunning():
-		raise WineException
+		raise WineError
 		
 	#_winreg is too complicated for it's own good... fix later
 	try:

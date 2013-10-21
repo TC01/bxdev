@@ -14,11 +14,12 @@ from bxdev import util
 #Import winreg either from _winreg or winereg
 if (sys.platform == "win32" or sys.platform == "cygwin"):
 	import _winreg as winreg
-	WineException = None
+	WineError = None
 else:
 	import winereg as winreg
-	from winereg import WineException
-	
+	from winereg import WineError
+	from winereg import WindowsError	
+
 def main():
 	"""Main function of the program"""
 	parser = argparse.ArgumentParser(description="Read messages from a BasicX processor (http://www.basicx.com) sent over RS232 serial communication")

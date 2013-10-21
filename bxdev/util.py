@@ -7,10 +7,10 @@ import sys
 #Import winreg either from _winreg or winereg
 if (sys.platform == "win32" or sys.platform == "cygwin"):
 	import _winreg as winreg
-	WineException = None
+	WineError = None
 else:
 	import winereg as winreg
-	from winreg import WineException
+	from winereg import WineError
 
 def getBuildTarget(target):
 	"""Parse command line input for the build target to one of the three target values"""

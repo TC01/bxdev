@@ -4,10 +4,10 @@ import sys
 #Import winreg either from _winreg or winereg
 if (sys.platform == "win32" or sys.platform == "cygwin"):
 	import _winreg as winreg
-	WineException = None
+	WineError = None
 else:
 	import winereg as winreg
-	from winereg import WineException
+	from winereg import WineError
 
 def parsePortSettings(portString):
 	"""Function to parse a registry port string into an array"""
@@ -29,7 +29,7 @@ def setBasicXPort(key, portline):
 	try:
 		winreg.SetValueEx(key, "BX24port_Number", 0, winreg.REG_SZ, portline)
 		print "  Port values updated"
-	except WineException:
+	except WineError:
 		print "  Error: Wine cannot be running while performing registry operations"
 		print "  Please kill any active instances of wine and try again"
 		success = False
