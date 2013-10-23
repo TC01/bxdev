@@ -8,12 +8,19 @@ if (sys.platform == "win32" or sys.platform == "cygwin"):
 else:
 	import winereg as winreg
 	from winereg import WineError
+	from winereg import WindowsError
 
 def parsePortSettings(portString):
 	"""Function to parse a registry port string into an array"""
-	portSettings = portString.split(',')
-	for i in range(len(portSettings) - 1):
-		portSettings[i] = portSettings[i].lstrip().rstrip()
+	portSettings = ""
+	try:
+		portSettings = portString.split(',')
+		for i in range(len(portSettings) - 1):
+			portSettings[i] = portSettings[i].lstrip().rstrip()
+	except:
+		# This should really be handled by winereg, since apparently winreg does that.
+		# Until I make winereg less sucky, we'll just do it here.
+		raise WindowsError
 	return portSettings
 
 def getBasicXPort(key):
