@@ -1,0 +1,11 @@
+There are plenty of improvements that could be made.
+
+-The .prf preferences files are a black box right now, I have no idea what the
+format is.
+
+-Rewriting the bxproj interface so it can edit as well as create- adding new
+files to the project file on CLI might be nice.
+
+-Does debugging work on Linux? It should, but untested.
+
+-Editor integration? A new "bxedit"?

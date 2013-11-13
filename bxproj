@@ -70,7 +70,7 @@ def main():
 	
 	#Copy the specified .prf file and then be done!
 	prf = os.path.join(prfdir, target + ".prf")
-	if args.prf != None and os.path.exists(args.prf):
+	if args.prf is not None and os.path.exists(args.prf):
 		prf = args.prf
 	success = projects.createPRFFile(project, directory, prf)
 	if not success:

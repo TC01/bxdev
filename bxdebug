@@ -26,7 +26,7 @@ def main():
 	parser.add_argument("-c", "--configure", dest="portline", help="Configure the port to read from, formatted like ' 3 ,19200,N,8,1'")
 	parser.add_argument("-o", "--output", dest="output", help="Output file to write the debugging messages to, defaults to standard output")
 	parser.add_argument("-t", "--terminator", dest="terminator", default="\\0", help="Terminating character from processor to indicate end of transmission")
-	parser.add_argument("--port", dest= "port", help="Number of the port to monitor, will override but not write to the registry")
+	parser.add_argument("--port", dest="port", help="Number of the port to monitor, will override but not write to the registry")
 	parser.add_argument("--baud", dest="baud", help="Baud rate of the port to monitor, will override but not write to the registry", default="18000")
 	parser.add_argument("--stopbits", dest="stopbits", help="Number of stop bits, will override but not write to the registry", default="1")
 	parser.add_argument("--parity", dest="parity", help="Parity of the port to monitor, will override but not write to the registry", default="N")
@@ -36,7 +36,7 @@ def main():
 	#Access the registry to get port settings, if configure mode we're setting
 	try:
 		key = util.openBasicXKey()
-		if args.portline != None:
+		if args.portline is not None:
 			success = debugger.setBasicXPort(key, args.portline)
 			if not success:
 				print "Exiting..."
@@ -57,22 +57,22 @@ def main():
 	
 	#If overrides were specified using the command line, use them
 	try:
-		if args.port != None:
+		if args.port is not None:
 			monitorPort.port = int(args.port) - 1
-		if args.baud != None:
+		if args.baud is not None:
 			monitorPort.baudrate = int(args.baud)
-		if args.parity != None:
+		if args.parity is not None:
 			monitorPort.parity = args.parity
-		if args.bytesize != None:
+		if args.bytesize is not None:
 			monitorPort.bytesize = int(args.bytesize)
-		if args.stopbits != None:
+		if args.stopbits is not None:
 			monitorPort.stopbits = int(args.stopbits)
 	except:
 		print "Error: invalid port options specified on the command line."
 
 	#If an output file is specified, open it now for writing
 	outputFile = None
-	if args.output != None:
+	if args.output is not None:
 		try:
 			fullOutput = os.path.abspath(args.output)
 			outputFile = open(fullOutput, 'ab')
@@ -96,9 +96,9 @@ def main():
 			debug = debug[:-1]
 			if debug.lstrip().rstrip() == args.terminator:
 				break
-			if args.output == None:
+			if args.output is None:
 				print debug
-			elif outputFile != None:
+			elif outputFile is not None:
 				outputFile.write(debug + "\n")
 		except:
 			badExit = True
@@ -107,7 +107,7 @@ def main():
 	#Close the port, output file (if there was one), and return 1 if bad exit
 	monitorPort.close()
 	print "Closed BasicX monitor port"
-	if outputFile != None:
+	if outputFile is not None:
 		outputFile.close()
 	if badExit:
 		sys.exit(1)

@@ -14,7 +14,7 @@ else:
 
 def getBuildTarget(target):
 	"""Parse command line input for the build target to one of the three target values"""
-	if target == None or (target != "BX01" and target != "BX24" and target != "BX35"):
+	if target is None or (target != "BX01" and target != "BX24" and target != "BX35"):
 		target = "BX24"
 	return target
 	
