@@ -1,4 +1,4 @@
-bxdev 0.4 - BasicX Development Libraries
+bxdev 0.5 - BasicX Development Libraries
 ========================================
 
 BasicX is a programming language for a series of microcontrollers designed and

@@ -22,13 +22,13 @@ if sys.platform == "win32":
 		scripts = newScripts
 
 setup(  name = "bxdev",
-	version = "0.4",
+	version = "0.5",
 	description = "BasicX development libraries",
 	long_description = "Software to debug BasicX projects using serial communications (www.basicx.com)",
 	author = "Ben Rosser",
 	license = "MIT",
 	author_email = "rosser.bjr@gmail.com",
-	url = "http://venus.arosser.com/projects/basicx",
+	url = "http://venus.arosser.com/projects/basicx.html",
 	packages = ["bxdev"],
 	py_modules = ["winereg"],
 	scripts = scripts,
