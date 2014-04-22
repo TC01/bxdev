@@ -12,15 +12,15 @@ else:
 
 def pathToNix(pathName):
 	"""Convert a Wine style path to a Unix style path"""
-	winePath = os.path.expanduser("~/.wine")
+	winePath = os.path.expanduser("~/.wine/")
 	pathName = pathName.replace(r'\\', "/")
 	pathName = pathName.replace("Z:", "")
-	pathName = pathName.replace("C:", winePath)
+	pathName = pathName.replace("C:", winePath + "drive_c/")
 	return pathName
 
 def pathToWine(pathName):
 	"""Convert a nix style path to a Wine style path"""
-	winePath = os.path.expanduser("~/.wine")
+	winePath = os.path.expanduser("~/.wine/drive_C/")
 	if winePath in pathName:
 		pathName = "C:" + pathName
 	else:

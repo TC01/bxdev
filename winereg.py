@@ -63,6 +63,7 @@ class WindowsError(Exception):
 
 def isWineRunning():
 	"""Check to see if wine is running... we can't edit the registry if it is"""
+	# There has *got* to be a better way to do this. This uses os.system and ps, it's awful.
 	try:
 		os.system("ps -ef | grep wine > ps.out")
 		output = open("ps.out", 'rt')
