@@ -18,10 +18,20 @@ debugging messages being transmitted over RS232 serial communication.
 
 For more information about BasicX, see http://www.basicx.com/
 
+Note that to use these tools, you'll need the BasicX compiler installed. This
+can be found here (http://www.basicx.com/downloads/bx-setup-210-complete.zip)
+for Windows. Unix users will need to use Wine to make this work.
+
 Installation:
 ----
 
-Clone the project with git:
+*NOTE:* If using any sort of Unix, you will need Wine (http://www.winehq.org/). 
+These tools are just a wrapper for the existing BasicX compiler, which is sadly
+Windows-only.
+
+Download and install BasicX: http://www.basicx.com/downloads/bx-setup-210-complete.zip
+
+Now, either download the project from PyPI or clone it with git:
 
 `$ git clone https://github.com/TC01/bxdev/`
 
@@ -32,6 +42,10 @@ $ cd bxdev
 $ python setup.py build
 $ python setup.py install
 ```
+
+Note that because we're now on PyPI you should be able to just run:
+
+`$ pip install bxdev`
 
 Usage:
 ----
